@@ -1,0 +1,13 @@
+function(doc) {
+	var content = doc.content.replace(/\r?\n/g, ' ');
+	content = content.length > 20 ? content.substr(0, 17) + '...' : content;
+
+	var row = {
+		"_id" : doc._id,
+		"_rev" : doc._rev,
+		"content" : content,
+		"updatedAt" : doc.updatedAt
+	};
+
+	emit(doc.updatedAt, row);
+}

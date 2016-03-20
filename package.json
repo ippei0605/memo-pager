@@ -1,0 +1,21 @@
+{
+	"name": "memo-pager",
+	"version": "1.0.0",
+	"description": "ページャー付きMemo (Node.js の Webアプリ)",
+	"private": true,
+	"scripts":
+	{
+		"start": "node app.js",
+		"postinstall": "node ./install/postinstall.js"
+	},
+	"dependencies":
+	{
+		"body-parser": "~1.15.0",
+		"cfenv": "~1.0.3",
+		"ejs": "~2.4.1",
+		"express": "~4.13.4",
+		"morgan": "~1.7.0",
+		"serve-favicon": "~2.3.0",
+		"cloudant": "~1.4.1"
+	}
+}

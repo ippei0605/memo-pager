@@ -1,0 +1,26 @@
+<form method="POST"
+	action="/memos<%= doc ? '/' + doc._id +'/' + doc._rev : '' %>">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">
+			<span aria-hidden="true">&times;</span> <span class="sr-only">閉じる</span>
+		</button>
+		<h4 class="modal-title" id="modalTitle">メモ</h4>
+	</div>
+	<div class="modal-body">
+		<fieldset>
+			<div class="form-group">
+				<textarea class="form-control" id="contentId" name="content"
+					rows="5" placeholder="本文" required autofocus><%= doc ? doc.content : '' %></textarea>
+			</div>
+			<div>
+				<input type="hidden" class="form-control" id="updatedAtId"
+					name="updatedAt" value="">
+			</div>
+		</fieldset>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary"
+			onclick="document.getElementById('updatedAtId').value = moment().format('YYYY/MM/DD HH:mm:ss.SSS');">保存</button>
+		<button type="button" class="btn btn-primary" data-dismiss="modal">キャンセル</button>
+	</div>
+</form>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= packageJson.description %></title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container">
+		<h1>
+			<%= packageJson.description %> <small>Version <%=
+				packageJson.version %> </small>
+		</h1>
+		<h3>page=<%= page %></h3>
+		<h5>pageIndexs=<%- pageIndexs %></h5>
+
+		<a href="#" data-remote="/memos" class="btn btn-primary"
+			data-toggle="modal" data-target="#dialog" data-backdrop="static"
+			data-keyboard="false">新規作成</a>
+		<div class="table-responsive">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th class="col-sm-8">本文</th>
+						<th class="col-sm-3 text-center">更新日時</th>
+						<th class="col-sm-1 text-center">削除</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% var doc; list.forEach(function(row) { doc = row.value; %>
+					<tr>
+						<td><a href="#"
+							data-remote="/memos/<%= doc._id %>/<%= doc._rev %>"
+							data-toggle="modal" data-target="#dialog" data-backdrop="static"
+							data-keyboard="false"> <%= doc.content %> </a></td>
+						<td class="text-center"><%= doc.updatedAt %></td>
+						<td class="text-center">
+							<form method="POST"
+								action="/memos/<%= doc._id %>/<%= doc._rev %>/delete">
+								<button type="submit" class="btn btn-link btn-xs">
+									<span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+									<span class="sr-only">削除</span>
+								</button>
+							</form>
+						</td>
+					</tr>
+					<% }); %>
+				</tbody>
+			</table>
+			<nav>
+				<ul class="pager">
+					<li class="previous disabled"><a href="?page=<%= parseInt(page) - 1 %>&pageIndexs=<%= pageIndexs %>">前のページ</a></li>
+					<li class="next"><a
+						href="?page=<%= parseInt(page) + 1 %>&pageIndexs=<%= pageIndexs %>">次のページ</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="modal" id="dialog" tabindex="-1" role="dialog"
+			aria-labelledby="modalTitle" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content"></div>
+			</div>
+		</div>
+	</div>
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.js"></script>
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(document).on("hidden.bs.modal", function(event) {
+				$(event.target).removeData("bs.modal").find(".modal-content").empty();
+			});
+		});
+	</script>
+</body>
+
+</html>

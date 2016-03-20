@@ -1,0 +1,17 @@
+# NPMモジュール
+node_modules/
+
+# JSDocの出力先
+out/
+
+# 設定ファイル
+.settings/
+.project
+.sublime-project
+.tern-project
+.jshintrc
+
+# その他
+*.log
+.DS_Store
+Thumbs.db
