@@ -18,7 +18,9 @@
 				packageJson.version %> </small>
 		</h1>
 		<h3>page=<%= page %></h3>
-		<h5>pageIndexs=<%- pageIndexs %></h5>
+		<h5>pageIndexs=<%= pageIndexs %></h5>
+		<h5>previousPage=<%= previousPage %></h5>
+		<h5>nextPage=<%= nextPage %></h5>
 
 		<a href="#" data-remote="/memos" class="btn btn-primary"
 			data-toggle="modal" data-target="#dialog" data-backdrop="static"
@@ -55,9 +57,9 @@
 			</table>
 			<nav>
 				<ul class="pager">
-					<li class="previous disabled"><a href="?page=<%= parseInt(page) - 1 %>&pageIndexs=<%= pageIndexs %>">前のページ</a></li>
+					<li class="previous disabled"><a href="?page=<%= previousPage %>&pageIndexs=<%= pageIndexs %>">前のページ</a></li>
 					<li class="next"><a
-						href="?page=<%= parseInt(page) + 1 %>&pageIndexs=<%= pageIndexs %>">次のページ</a></li>
+						href="?page=<%= nextPage %>&pageIndexs=<%= pageIndexs %>">次のページ</a></li>
 				</ul>
 			</nav>
 		</div>
