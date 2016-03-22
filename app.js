@@ -23,13 +23,6 @@ app.use(bodyParser.urlencoded({
 app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // ルートを設定する。
-//var f = routes.list;
-
-var getMappings = {
-		"url": "/",
-		"function": routes.list
-};
-
 app.get('/', routes.list);
 app.get('/memos', routes.createDialog);
 app.get('/memos/:_id/:_rev', routes.updateDialog);

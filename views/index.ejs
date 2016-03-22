@@ -1,3 +1,4 @@
+<%# ページャー付きMemoアプリのメモ一覧表示画面 Ippei SUZUKI %>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -17,11 +18,6 @@
 			<%= packageJson.description %> <small>Version <%=
 				packageJson.version %> </small>
 		</h1>
-		<h3>page=<%= page %></h3>
-		<h5>pageIndexs=<%= pageIndexs %></h5>
-		<h5>previousPage=<%= previousPage %></h5>
-		<h5>nextPage=<%= nextPage %></h5>
-
 		<a href="#" data-remote="/memos" class="btn btn-primary"
 			data-toggle="modal" data-target="#dialog" data-backdrop="static"
 			data-keyboard="false">新規作成</a>
@@ -57,9 +53,9 @@
 			</table>
 			<nav>
 				<ul class="pager">
-					<li class="previous disabled"><a href="?page=<%= previousPage %>&pageIndexs=<%= pageIndexs %>">前のページ</a></li>
-					<li class="next"><a
-						href="?page=<%= nextPage %>&pageIndexs=<%= pageIndexs %>">次のページ</a></li>
+					<li class="previous <%= pagerInfo.previous.visible %>"><a href="<%= pagerInfo.previous.url%>">前のページ</a></li>
+					<span><%= pagerInfo.page %>/<%= pagerInfo.lastPage %></span>
+					<li class="next <%= pagerInfo.next.visible %>"><a href="<%= pagerInfo.next.url %>">次のページ</a></li>
 				</ul>
 			</nav>
 		</div>
