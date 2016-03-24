@@ -1,4 +1,4 @@
-<%# ページャー付きMemoアプリのメモ一覧表示画面 Ippei SUZUKI %>
+<%# Memo with pager アプリのメモ一覧表示画面 Ippei SUZUKI %>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -18,9 +18,10 @@
 			<%= packageJson.description %> <small>Version <%=
 				packageJson.version %> </small>
 		</h1>
-		<a href="#" data-remote="/memos" class="btn btn-primary"
-			data-toggle="modal" data-target="#dialog" data-backdrop="static"
-			data-keyboard="false">新規作成</a>
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#memo-dialog" data-action="/memos" data-content=""
+			data-backdrop="static" data-keyboard="false">新規作成</button>
+
 		<div class="table-responsive">
 			<table class="table table-striped table-hover">
 				<thead>
@@ -33,10 +34,13 @@
 				<tbody>
 					<% var doc; list.forEach(function(row) { doc = row.value; %>
 					<tr>
-						<td><a href="#"
-							data-remote="/memos/<%= doc._id %>/<%= doc._rev %>"
-							data-toggle="modal" data-target="#dialog" data-backdrop="static"
-							data-keyboard="false"> <%= doc.content %> </a></td>
+						<td
+							style="max-width: 200px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><a
+							href="#" data-toggle="modal" data-target="#memo-dialog"
+							data-backdrop="static" data-backdrop="static"
+							data-keyboard="false"
+							data-action="/memos/<%= doc._id %>/<%= doc._rev %>"
+							data-content="<%= doc.content %>"> <%= doc.content %> </a></td>
 						<td class="text-center"><%= doc.updatedAt %></td>
 						<td class="text-center">
 							<form method="POST"
@@ -53,9 +57,11 @@
 			</table>
 			<nav>
 				<ul class="pager">
-					<li class="previous <%= pagerInfo.previous.visible %>"><a href="<%= pagerInfo.previous.url%>">前のページ</a></li>
+					<li class="previous <%= pagerInfo.previous.visible %>"><a
+						href="<%= pagerInfo.previous.url%>">前のページ</a></li>
 					<span><%= pagerInfo.page %>/<%= pagerInfo.lastPage %></span>
-					<li class="next <%= pagerInfo.next.visible %>"><a href="<%= pagerInfo.next.url %>">次のページ</a></li>
+					<li class="next <%= pagerInfo.next.visible %>"><a
+						href="<%= pagerInfo.next.url %>">次のページ</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -73,13 +79,57 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 		integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
 		crossorigin="anonymous"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$(document).on("hidden.bs.modal", function(event) {
-				$(event.target).removeData("bs.modal").find(".modal-content").empty();
+
+	<!-- メモ新規作成・更新ダイアログ -->
+	<div class="modal" id="memo-dialog" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form id="memoFormId" method="POST" action="/memos">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span> <span class="sr-only">閉じる</span>
+						</button>
+						<h4 class="modal-title" id="modalTitle">メモ</h4>
+					</div>
+					<div class="modal-body">
+						<fieldset>
+							<div class="form-group">
+								<textarea class="form-control" id="contentId" name="content"
+									rows="5" placeholder="本文" required autofocus></textarea>
+							</div>
+							<div>
+								<input type="hidden" class="form-control" id="updatedAtId"
+									name="updatedAt" value="">
+							</div>
+						</fieldset>
+					</div>
+					<div class="modal-footer">
+						<button id="saveButtonId" type="submit" class="btn btn-primary">保存</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">キャンセル</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#memo-dialog').on('show.bs.modal', function(event) {
+					var relatedTarget = $(event.relatedTarget);
+					$('#memoFormId').attr('action', relatedTarget.data('action'));
+					$('#contentId').text(relatedTarget.data('content'));
+					setTimeout(function() {
+						$('#contentId').focus();
+					}, 0);
+				});
+				$('#saveButtonId').on('click', function() {
+					$('#updatedAtId').val(moment().format('YYYY/MM/DD HH:mm:ss.SSS'));
+				});
+				$('#memoFormId').on('submit', function() {
+					$('#saveButtonId').attr('disabled', 'disabled');
+				});
 			});
-		});
-	</script>
+		</script>
+	</div>
+
 </body>
 
 </html>

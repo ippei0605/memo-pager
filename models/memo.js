@@ -1,5 +1,5 @@
 /**
- * ページャー付きMemoアプリのモデル
+ * Memo with pager アプリのモデル
  *
  * @module models/memo
  * @author Ippei SUZUKI
@@ -88,10 +88,10 @@ var getNextPage = function(page, totalRows) {
 };
 
 /** 対象ページとページインデックスよりリンク情報を返す。 */
-var getLinkInfo = function(targetPage, pageIndexes) {
+var getLinkInfo = function(targetPage) {
 	var visible, url = '#';
 	if (typeof targetPage !== 'undefined') {
-		url = '?page=' + targetPage + '&pageIndexes=' + pageIndexes;
+		url = '?page=' + targetPage;
 	} else {
 		visible = 'disabled';
 	}
@@ -102,7 +102,7 @@ var getLinkInfo = function(targetPage, pageIndexes) {
 	return linkInfo;
 };
 
-/** ページャー情報を返す */
+/** ページャー情報を返す。 */
 exports.getPagerInfo = function(page, totalRows, pageIndexes) {
 	var pagerInfo = {
 		"page" : page,
@@ -113,15 +113,12 @@ exports.getPagerInfo = function(page, totalRows, pageIndexes) {
 	return pagerInfo;
 };
 
-/** URLパラメータよりページインデックスを返す */
-exports.getPageIndexes = function(page, urlParam) {
-	var pageIndexes;
-	if (page == 1 || typeof urlParam === 'undefined') {
-		// 最初のページ (初回の検索)
-		// ページインデックスを初期化する。(0, 1ページは未使用)
-		pageIndexes = [ undefined, undefined ];
-	} else {
-		pageIndexes = urlParam.split(',');
-	}
-	return pageIndexes;
+/** ページインデックスを返す。 */
+exports.getPageIndexes = function(page, pageIndexes) {
+	return page == 1 ? [ undefined, undefined ] : pageIndexes;
 };
+
+/** ページを返す。 */
+exports.getPage = function(page) {
+	return (typeof page !== 'undefined') ? page : 1;
+}

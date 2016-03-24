@@ -1,5 +1,5 @@
 /**
- * ページャー付きMemoアプリのルーティング
+ * Memo with pager アプリのルーティング
  *
  * @module routes/index
  * @author Ippei SUZUKI
@@ -13,41 +13,27 @@ var memo = require('../models/memo');
 var packageJson = require('../package.json');
 
 /** メモ一覧を表示する。 */
-// http://docs.couchdb.org/en/1.6.1/couchapp/views/pagination.html
 exports.list = function(req, res) {
-	// ページを設定する。
-	var page = (typeof req.query.page !== 'undefined') ? req.query.page : 1;
+	// ページを取得する。
+	var page = memo.getPage(req.query.page);
 
-	// ページインデックスを設定する。
-	var pageIndexes = memo.getPageIndexes(page, req.query.pageIndexes);
+	// ページインデックスを取得する。
+	var pageIndexes = memo.getPageIndexes(page, req.session.pageIndexes);
 
 	memo.list(page, pageIndexes, function(err, body) {
+		// 1ページに表示する行数 + 1個目のキーを次のページインデックスにセットする。
+		// + 1個目の値は捨てる。
 		if (body.rows.length > context.LINE_PER_PAGE) {
 			var end = body.rows.pop();
 			pageIndexes[parseInt(page) + 1] = end.key;
 		}
+		// ページインデックスをセッションにセットする。
+		req.session.pageIndexes = pageIndexes;
 
 		res.render('index', {
 			"packageJson" : packageJson,
 			"list" : body.rows,
 			"pagerInfo" : memo.getPagerInfo(page, body.total_rows, pageIndexes)
-		});
-	});
-};
-
-/** メモの新規作成ダイアログを表示する。 */
-exports.createDialog = function(req, res) {
-	res.render('dialog', {
-		"doc" : null
-	});
-};
-
-/** メモの更新ダイアログを表示する。 */
-exports.updateDialog = function(req, res) {
-	var _id = req.params._id;
-	memo.get(_id, function(err, doc) {
-		res.render('dialog', {
-			"doc" : doc
 		});
 	});
 };

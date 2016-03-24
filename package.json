@@ -1,7 +1,7 @@
 {
 	"name": "memo-pager",
 	"version": "1.0.0",
-	"description": "ページャー付きMemo (Node.js の Webアプリ)",
+	"description": "Memo with pager (Node.js の Webアプリ)",
 	"private": true,
 	"scripts":
 	{
@@ -16,6 +16,8 @@
 		"express": "~4.13.4",
 		"morgan": "~1.7.0",
 		"serve-favicon": "~2.3.0",
-		"cloudant": "~1.4.1"
+		"cloudant": "~1.4.1",
+		"express-session": "~1.13.0",
+		"connect-cloudant": "~1.0.5"
 	}
 }

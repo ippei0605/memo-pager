@@ -1,15 +1,16 @@
 /**
- * @file ページャー付きMemoアプリのインストール後処理
+ * @file Memo with pager アプリのインストール後処理
  *
  * <pre>
  * ・データベース「memo」が無い場合は作成する。
  * ・「memo」にビュー「_design/memos」が無い場合は作成する。
+ * ・セッション保存用データベース「session」を削除＆作成する。
  * </pre>
  *
  * @author Ippei SUZUKI
  */
 
-//モジュールを読込む。
+// モジュールを読込む。
 var context = require('../utils/context');
 
 // ビュー (マップファンクションは空で定義)
@@ -38,7 +39,7 @@ var insertView = function(db, view) {
 };
 
 // データベースを作成する。
-var createDatabese = function(database) {
+var createDatabese = function(database, view) {
 	// データベースの存在をチェックする。
 	context.cloudant.db.get(database, function(err, body) {
 		if (err && err.error === 'not_found') {
@@ -48,7 +49,7 @@ var createDatabese = function(database) {
 					console.log('データベース[%s]を作成しました。', database);
 					// ビューを作成する。
 					var db = context.cloudant.db.use(database);
-					insertView(db, VIEW);
+					insertView(db, view);
 				} else {
 					console.log(err);
 				}
@@ -56,15 +57,29 @@ var createDatabese = function(database) {
 		} else {
 			// ビューの存在をチェックする。
 			var db = context.cloudant.db.use(database);
-			db.get(VIEW._id, function(err, body) {
+			db.get(view._id, function(err, body) {
 				if (!body) {
 					// ビューが無いため作成する。
 					console.log('アプリに必要なビューがありません。');
-					insertView(db, VIEW);
+					insertView(db, view);
 				}
 			});
 		}
 	});
 };
 
-createDatabese(context.MEMO_DB_NAME);
+// セッション保存用データベースを削除＆作成する。
+var createSessionDatabase = function(database) {
+	context.cloudant.db.destroy(database, function() {
+		context.cloudant.db.create(database, function(err) {
+			if (!err) {
+				console.log('データベース[%s]を再作成しました。', database);
+			} else {
+				console.log(err);
+			}
+		});
+	});
+}
+
+createDatabese(context.MEMO_DB_NAME, VIEW);
+createSessionDatabase(context.SESSION_DB_NAME);
