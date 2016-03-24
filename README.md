@@ -70,7 +70,7 @@ Cloudant NoSQL DB のページネーションの仕組みについては、Pagin
     │      index.js           Memo with pager アプリのルーティング
     │      
     ├─utils
-    │      context.js         Memoアプリのコンテキスト
+    │      context.js         Memo with pager アプリのコンテキスト
     │      
     └─views
             index.ejs         メモ一覧表示画面、新規登録・更新ダイアログ
