@@ -80,9 +80,9 @@ Cloudant NoSQL DB のページネーションの仕組みについては、Pagin
 |Action|Method|処理|
 |---|-----------|-----------|
 |/|GET|メモ一覧表示|
-|/memos|POST|メモ新規登録、処理後 / にリダイレクト|
-|/memos/:_id/:_rev|POST|メモ更新、処理後 / にリダイレクト|
-|/memos/:_id/:_rev/delete|POST|メモ削除、処理後 / にリダイレクト|
+|/memos|POST|メモを新規登録して、メモ一覧にリダイレクト|
+|/memos/:_id/:_rev|POST|メモを更新して、メモ一覧にリダイレクト|
+|/memos/:_id/:_rev/delete|POST|メモを削除して、現在のページのメモ一覧にリダイレクト|
 
 
 ## Memo アプリからの変更点

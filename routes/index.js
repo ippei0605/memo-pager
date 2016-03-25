@@ -62,9 +62,9 @@ exports.update = function(req, res) {
 	});
 };
 
-/** メモをDBから削除して、メモ一覧を表示する。 */
+/** メモをDBから削除して、現在のページのメモ一覧を表示する。 */
 exports.remove = function(req, res) {
 	memo.remove(req.params._id, req.params._rev, function() {
-		res.redirect('/');
+		res.redirect('/?page=' + req.body.page);
 	});
 };
