@@ -28,7 +28,7 @@ Cloudant NoSQL DB のページネーションの仕組みについては、Pagin
 
 1. 解凍したディレクトリ (memoアプリのホーム) に移動してください。
 
-        > cd memo
+        > cd memo-pager
 
 1. Bluemixに接続してください。
 
