@@ -27,13 +27,14 @@ exports.list = function(req, res) {
 			var end = body.rows.pop();
 			pageIndexes[parseInt(page) + 1] = end.key;
 		}
+
 		// ページインデックスをセッションにセットする。
 		req.session.pageIndexes = pageIndexes;
 
 		res.render('index', {
 			"packageJson" : packageJson,
 			"list" : body.rows,
-			"pagerInfo" : memo.getPagerInfo(page, body.total_rows, pageIndexes)
+			"pagerInfo" : memo.getPagerInfo(page, body.total_rows)
 		});
 	});
 };
@@ -65,6 +66,6 @@ exports.update = function(req, res) {
 /** メモをDBから削除して、現在のページのメモ一覧を表示する。 */
 exports.remove = function(req, res) {
 	memo.remove(req.params._id, req.params._rev, function() {
-		res.redirect('/?page=' + req.body.page);
+		res.redirect('/');
 	});
 };

@@ -75,7 +75,7 @@ var getPreviousPage = function(page) {
 
 /** 最後のページを返す。 */
 var getLastPage = function(totalRows) {
-	return (Math.floor(totalRows / context.LINE_PER_PAGE) + 1);
+	return (Math.ceil(totalRows / context.LINE_PER_PAGE));
 };
 
 /** 次のページ番号を返す。(無い場合は未定義) */
@@ -103,12 +103,12 @@ var getLinkInfo = function(targetPage) {
 };
 
 /** ページャー情報を返す。 */
-exports.getPagerInfo = function(page, totalRows, pageIndexes) {
+exports.getPagerInfo = function(page, totalRows) {
 	var pagerInfo = {
 		"page" : page,
 		"lastPage" : getLastPage(totalRows),
-		"previous" : getLinkInfo(getPreviousPage(page), pageIndexes),
-		"next" : getLinkInfo(getNextPage(page, totalRows), pageIndexes)
+		"previous" : getLinkInfo(getPreviousPage(page)),
+		"next" : getLinkInfo(getNextPage(page, totalRows))
 	};
 	return pagerInfo;
 };

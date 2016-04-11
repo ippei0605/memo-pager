@@ -27,11 +27,12 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(session({
 	store : context.getCloudantStore(session),
 	secret : 'Memo with pager',
-	cookie : {
-		maxAge : 24 * 60 * 60 * 1000
-	}, // stay open for 1 day of inactivity
 	resave : true,
-	saveUninitialized : true
+	saveUninitialized : true,
+	cookie : {
+		// stay open for 1 day of inactivity
+		maxAge : 24 * 60 * 60 * 1000
+	}
 }));
 
 // ルートを設定する。
